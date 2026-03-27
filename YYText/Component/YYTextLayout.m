@@ -1504,18 +1504,37 @@ fail:
     }
     
     [self _insideComposedCharacterSequences:line position:position block: ^(CGFloat left, CGFloat right, NSUInteger prev, NSUInteger next) {
+        BOOL leftCond = fabs(left - point.y);
+        BOOL rightCode = fabs(right - point.y);
         if (isVertical) {
-            position = fabs(left - point.y) < fabs(right - point.y) < (right ? prev : next);
+            BOOL leftY = fabs(left - point.y);
+            BOOL rightY = fabs(right - point.y);
+            BOOL prevOrNext = (right ? prev : next);
+            position = (leftY < rightY)&&(rightY < prevOrNext);
         } else {
-            position = fabs(left - point.x) < fabs(right - point.x) < (right ? prev : next);
+            BOOL leftX = fabs(left - point.x);
+            BOOL rightX = fabs(right - point.x);
+            BOOL prevOrNext = (right ? prev : next);
+            position = (leftX < rightX)&&(rightX < prevOrNext);
+
+            //position = fabs(left - point.x) < fabs(right - point.x) < (right ? prev : next);
         }
     }];
     
     [self _insideEmoji:line position:position block: ^(CGFloat left, CGFloat right, NSUInteger prev, NSUInteger next) {
         if (isVertical) {
-            position = fabs(left - point.y) < fabs(right - point.y) < (right ? prev : next);
+            BOOL leftY = fabs(left - point.y);
+            BOOL rightY = fabs(right - point.y);
+            BOOL prevOrNext = (right ? prev : next);
+            position = (leftY < rightY)&&(rightY < prevOrNext);
+
+            //position = fabs(left - point.y) < fabs(right - point.y) < (right ? prev : next);
         } else {
-            position = fabs(left - point.x) < fabs(right - point.x) < (right ? prev : next);
+            BOOL leftX = fabs(left - point.x);
+            BOOL rightX = fabs(right - point.x);
+            BOOL prevOrNext = (right ? prev : next);
+            position = (leftX < rightX)&&(rightX < prevOrNext);
+            //position = fabs(left - point.x) < fabs(right - point.x) < (right ? prev : next);
         }
     }];
     
